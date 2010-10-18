@@ -7,7 +7,7 @@
 Summary: A ruby client library providing the raw interface to libvirt via FFI
 Name: rubygem-%{gemname}
 Version: 0.0.1.20101018
-Release: 2%{?dist}
+Release: 3%{?dist}
 Group: Development/Languages
 License: GPLv2+ or Ruby
 URL: http://rubygems.org/gems/libvirt
@@ -17,6 +17,7 @@ Requires: rubygems
 Requires: rubygem(ffi) >= 0.6.3
 Requires: rubygem(builder) >= 2.1.2
 Requires: rubygem(nokogiri) >= 1.4.1
+Requires: libvirt
 BuildRequires: rubygems
 BuildArch: noarch
 Provides: rubygem(%{gemname}) = %{version}
@@ -34,6 +35,7 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}%{gemdir}
 gem install --local --install-dir %{buildroot}%{gemdir} \
             --force --rdoc %{SOURCE0}
+sed -i 's/ffi_lib \"libvirt\"/ffi_lib \"libvirt\.so\.0\"/' %{buildroot}/%{geminstdir}/lib/ffi/libvirt.rb
 
 %clean
 rm -rf %{buildroot}
@@ -47,6 +49,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Oct 18 2010 : Sergio Rubio <rubiojr@frameos.org> - 0.0.1.20101018-3
+- add libvirt dep
+
 * Mon Oct 18 2010 : Sergio Rubio <rubiojr@frameos.org> - 0.0.1.20101018-2
 - Fix install so check-buildroot does not complain
 
